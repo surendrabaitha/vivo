@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Model</title>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100%;
+            /* background: linear-gradient(180deg, #f27121, #e94057, #8a2387); */
+            background-image: url('./modal/Untitled-1.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            font-family: "Noto Sans", serif;
+            overflow: hidden;
+        }
+      
+        model-viewer {
+            width: 100%;
+            height: 100vh;
+        }
+        .menu-bar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(25px);
+            position: absolute;
+            bottom: 2%;
+            width: 75%;
+            border-radius: 50px;
+        }
+        .menu-bar .col {
+            text-align: center;
+            font-family: 'Poppins';
+            color: #f0f0f0;
+        }
+        .menu-bar .col i {
+            font-size: 20px;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .menu-bar .col button {
+            background: none;
+            color: #f0f0f0;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        .menu-bar .col button i {
+            font-size: 24px;
+        }
+        .menu-bar .col button:hover {
+            color: #ffcc00;
+        }
+
+        .first{
+            position: absolute;
+            top: 30px;
+            width: 100%;
+            text-align: center;
+            color: white;
+        }
+
+        .backpanel{
+            display: none;
+            position: absolute;
+            top:30px;
+            left: 50%;
+    
+            transform: translateX(50%);
+            line-height: 40px;
+            width: 100%;
+            text-align: center;
+            opacity: 0;
+            
+        }
+        .backpanel h3:first-child{
+            color: white;
+            font-size: 26px;
+            
+            
+        }
+        .backpanel h3:last-child{
+            color: rgb(247, 247, 247);
+            font-size: 20px;
+            font-weight: 500;
+        }
+       
+        .backpanel.active {
+            display: block !important;
+            animation: slide-up 0.8s ease-out forwards;
+        }
+
+        @keyframes slide-up {
+            0% {
+                transform: translate(-50%, 100%);
+                opacity: 0;
+            }
+            100% {
+                transform: translate(-50%, 0);
+                opacity: 1;
+            }
+        }
+        .hide{
+            display: none !important;
+        }
+
+
+
+ .animation-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    height: 50px;
+    overflow: hidden;
+    text-align: center;
+    color: #fff;
+    /* border: 3px solid; */
+}
+
+.animated-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    font-weight: 400;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    animation: slideIn 6s infinite;
+}
+
+.animated-text:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.animated-text:nth-child(2) {
+    animation-delay: 2s;
+}
+
+.animated-text:nth-child(3) {
+    animation-delay: 4s;
+}
+
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) translateY(10px);
+    }
+    10% {
+        opacity: 1;
+        transform: translate(-50%, -50%) translateY(0);
+    }
+    30% {
+        opacity: 1;
+    }
+    40% {
+        opacity: 0;
+        transform: translate(-50%, -50%) translateY(-10px);
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+
+
+/* CAMERA PROPERTY */
+
+
+
+.camera-box {
+  position: absolute;
+  top: 35%; /* Aligns the box 50px from the top */
+  left: 76%; /* Aligns the box 50px from the right */
+  transform: translate(-50%, -50%) scale(0);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  width: 150px;
+  height: 165px;
+  padding: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  /* text-align: left; */
+  opacity: 0;
+  transition: all 1s ease-in-out;
+}
+
+.camera-box.visible {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+.sub-title {
+  font-size: 10px;
+  margin-bottom: 10px;
+  color: #ffdd57;
+}
+
+.description {
+  margin: 5px 0;
+  font-size: 9px;
+  color: #ddd;
+}
+    </style>
+</head>
+<body>
+    <model-viewer
+        ar
+        ar-scale="fixed"
+        src="modal/v50_base.glb"
+        autoplay="false"
+        camera-controls 
+        touch-action="pan-y" 
+        shadow-intensity="2"
+        auto-rotate-duration="300"
+        camera-target="0.00m 0.32m 0.14]m"
+        auto-rotate-enabled="true"
+        xr-environment
+        id="model-viewer">
+    </model-viewer>
+
+    <div class="menu-bar">
+        <div class="col" id="cameraBox">
+            <i class="fa-solid fa-camera"></i>
+            <small>Camera</small>
+        </div>
+        <div class="col" id="batteryBox">
+            <i class="fa-solid fa-battery-full"></i>
+            <small>Battery</small>
+        </div>
+        <div class="col">
+            <button id="ar-button">
+                <i class="fa-solid fa-cube"></i>
+                <small>View in AR</small>
+            </button>
+        </div>
+    </div>
+
+    <div class="first" id="first">
+       <img src="./modal/VIVO_LOGO.png" width="100%" height="100%" alt="VIVO_LOGO">
+          
+    </div>
+
+
+    <!-- camera -->
+    <div class="container">
+        <!-- The boxes will be appended here -->
+      </div>
+
+    <div class="backpanel" id="backpanel">
+        <h3>5700 mAh Battey with </h3>
+           <!-- <h3 id="textChange">100W Fast charging</h3> -->
+           <div class="animation-container">
+            <p class="animated-text">100W Fast Charging</p>
+            <p class="animated-text">Charge to 50% in 11 Minutes</p>
+            <p class="animated-text">Zero-Power Superfast Startup</p>
+        </div>
+    </div>
+
+
+    <script>
+        const arButton = document.getElementById('ar-button');
+        const modelViewer = document.getElementById('model-viewer');
+        const cameraBox = document.getElementById('cameraBox');
+        const batteryBox = document.getElementById('batteryBox');
+        const backpanel = document.getElementById('backpanel');
+        const first = document.getElementById('first');
+        const container = document.querySelector(".container");
+
+
+        arButton.addEventListener('click', () => {
+            if (modelViewer.canActivateAR) {
+                modelViewer.src="modal/v50_base.glb";
+                backpanel.classList.remove("active")
+                modelViewer.activateAR();
+            } else {
+                alert("AR is not supported on your device.");
+            }
+        });
+
+
+  // 360° view for Camera
+  cameraBox.addEventListener('click', () => {
+        modelViewer.src = "modal/Vivo50_cam_Lens.glb"; // Camera-specific model
+        backpanel.classList.remove("active")
+        first.style.display ="block"
+        modelViewer.setAttribute('camera-orbit', '-50deg 75deg 2.86m'); // Initial angle
+        modelViewer.setAttribute('min-camera-orbit', 'auto auto auto'); // Unrestricted rotation
+        modelViewer.setAttribute('max-camera-orbit', 'auto auto auto');
+        modelViewer.autoRotateEnabled = true; // Enable auto-rotate
+
+        container.style.display ="block";
+        
+        const cameraData = [
+    {
+      title: "ZEISS 1-inch <br>Main Camera",
+      descriptions: [
+        "50 MP",
+        "1/0.98\"",
+        "f/1.75 Aperture",
+        "IMX989 Sensor",
+        "1 Glass + 7 Plastic Lenses",
+        "OIS",
+      ],
+    },
+    {
+      title: "Super <br>Wide-Angle <br>Camera",
+      descriptions: ["50 MP", "1/2.76\"", "f/2.0 Aperture"],
+    },
+    {
+      title: "ZEISS APO Floating <br>Telephoto Camera",
+      descriptions: [
+        "50 MP",
+        "1/2<sup>3</sup>",
+        "f/2.5 Aperture",
+        "Floating Elements Design",
+        "OIS",
+      ],
+    },
+  ];
+
+
+
+  cameraData.forEach((camera, index) => {
+    const box = document.createElement("div");
+    box.classList.add("camera-box");
+
+    const title = document.createElement("h5");
+    title.classList.add("sub-title");
+    title.innerHTML = camera.title;
+
+    box.appendChild(title);
+
+    camera.descriptions.forEach((desc) => {
+      const descDiv = document.createElement("div");
+      descDiv.classList.add("description");
+      descDiv.innerHTML = desc;
+      box.appendChild(descDiv);
+    });
+
+    container.appendChild(box);
+
+    // Append animation with delay
+    setTimeout(() => {
+      box.classList.add("visible");
+    }, index * 2500); // 2 seconds delay between boxes
+  });
+
+        modelViewer.play();
+    });
+
+    // 360° view for Battery
+    batteryBox.addEventListener('click', () => {
+        modelViewer.src = "modal/Vivo50_backpanel.glb"; // Battery-specific model
+        modelViewer.setAttribute('camera-orbit', '-50deg 75deg 2.86m'); // Initial angle
+        modelViewer.setAttribute('min-camera-orbit', 'auto auto auto'); // Unrestricted rotation
+        modelViewer.setAttribute('max-camera-orbit', 'auto auto auto');
+        modelViewer.autoRotateEnabled = true; // Enable auto-rotate
+         // Toggle the active class to show/hide the panel with animation
+         
+         if (!backpanel.classList.contains('active')) {
+                backpanel.classList.add('active');
+            } else {
+                backpanel.classList.remove('active');
+                backpanel.style.display = 'none'; // Hides the panel after animation
+            }
+
+
+         first.style.display ="none";
+         container.style.display ="none";
+         
+        
+        modelViewer.play();
+    });
+
+
+
+    // CAMERA SCRIPTS
+
+
+  
+
+    </script>
+</body>
+</html>
