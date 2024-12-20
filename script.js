@@ -27,7 +27,7 @@ window.addEventListener("DOMContentLoaded", ()=>{
 
 // 360° view for Camera
 cameraBox.addEventListener("click", () => {
-  modelViewer.src = "modal/vivo50_cam_lens.glb";
+  modelViewer.src = "./modal/vivo50_cam_lens.glb";
   backpanel.classList.remove("active");
   first.style.display = "block";
   modelViewer.setAttribute("camera-orbit", "-50deg 75deg 2.86m"); // Initial angle
