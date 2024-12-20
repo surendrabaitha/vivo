@@ -96,7 +96,7 @@ cameraBox.addEventListener("click", () => {
       container.appendChild(box);
       setTimeout(() => {
         box.classList.add("visible");
-      }, 100); // Small delay to trigger CSS transition
+      }, 300); // Small delay to trigger CSS transition
     }, index * 3000); // 2.5 seconds delay between boxes
   });
   
