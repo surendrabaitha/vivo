@@ -106,7 +106,7 @@ cameraBox.addEventListener("click", () => {
 
 // 360° view for Battery
 batteryBox.addEventListener("click", () => {
-  modelViewer.src = "./modal/vivo50_battery.glb"; 
+  modelViewer.src = "./modal/vivo50battery.glb"; 
   modelViewer.setAttribute("camera-orbit", "-50deg 75deg 2.86m"); 
   modelViewer.setAttribute("min-camera-orbit", "auto auto auto"); 
   modelViewer.setAttribute("max-camera-orbit", "auto auto auto");
